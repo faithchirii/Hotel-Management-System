@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hotel Management System</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>Grand Horizon — Hotel Management</h1>
+    <div class="stats">
+      <div class="stat-card">
+        <span>Total Rooms</span>
+        <strong id="total-rooms">0</strong>
+      </div>
+      <div class="stat-card available">
+        <span>Available</span>
+        <strong id="available-rooms">0</strong>
+      </div>
+      <div class="stat-card occupied">
+        <span>Occupied</span>
+        <strong id="occupied-rooms">0</strong>
+      </div>
+      <div class="stat-card revenue">
+        <span>Active Revenue</span>
+        <strong id="total-revenue">$0</strong>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Check-In Form -->
+    <section class="card form-section">
+      <h2>Guest Check-In</h2>
+      <form id="checkin-form">
+        <div class="form-group">
+          <label for="guest-name">Guest Full Name</label>
+          <input type="text" id="guest-name" placeholder="e.g. Jane Doe" required />
+        </div>
+
+        <div class="form-group">
+          <label for="guest-phone">Phone Number</label>
+          <input type="tel" id="guest-phone" placeholder="e.g. +254 712 345 678" required />
+        </div>
+
+        <div class="form-group">
+          <label for="room-select">Select Available Room</label>
+          <select id="room-select" required>
+            <!-- Populated dynamically via JS -->
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="nights">Number of Nights</label>
+          <input type="number" id="nights" min="1" max="60" value="1" required />
+        </div>
+
+        <button type="submit" class="btn-primary">Check In Guest</button>
+      </form>
+    </section>
+
+    <!-- Room & Booking Overview -->
+    <section class="card table-section">
+      <div class="table-header">
+        <h2>Rooms & Active Bookings</h2>
+        <div class="filters">
+          <input type="text" id="search-input" placeholder="Search guest or room..." />
+          <select id="status-filter">
+            <option value="all">All Rooms</option>
+            <option value="Available">Available Only</option>
+            <option value="Occupied">Occupied Only</option>
+          </select>
+        </div>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Room</th>
+            <th>Type</th>
+            <th>Rate / Night</th>
+            <th>Status</th>
+            <th>Guest Details</th>
+            <th>Nights</th>
+            <th>Total Bill</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="rooms-table-body">
+          <!-- Populated dynamically via JS -->
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
