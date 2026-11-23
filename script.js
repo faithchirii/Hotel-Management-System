@@ -1,12 +1,19 @@
+function formatCurrency(amount) {
+  return new Intl.NumberFormat("en-KE", {
+    style: "currency",
+    currency: "KES",
+    maximumFractionDigits: 0
+  }).format(amount);
+}
 const defaultRooms = [
-  { number: "101", type: "Single", price: 50, status: "Available", guest: null },
-  { number: "102", type: "Single", price: 50, status: "Available", guest: null },
-  { number: "103", type: "Double", price: 85, status: "Available", guest: null },
-  { number: "104", type: "Double", price: 85, status: "Available", guest: null },
-  { number: "201", type: "Deluxe", price: 130, status: "Available", guest: null },
-  { number: "202", type: "Deluxe", price: 130, status: "Available", guest: null },
-  { number: "301", type: "Suite", price: 220, status: "Available", guest: null },
-  { number: "302", type: "Suite", price: 220, status: "Available", guest: null }
+  { number: "101", type: "Single", price: 2500, status: "Available", guest: null },
+  { number: "102", type: "Single", price: 2500, status: "Available", guest: null },
+  { number: "103", type: "Double", price: 4000, status: "Available", guest: null },
+  { number: "104", type: "Double", price: 4000, status: "Available", guest: null },
+  { number: "201", type: "Deluxe", price: 6500, status: "Available", guest: null },
+  { number: "202", type: "Deluxe", price: 6500, status: "Available", guest: null },
+  { number: "301", type: "Suite", price: 10000, status: "Available", guest: null },
+  { number: "302", type: "Suite", price: 10000, status: "Available", guest: null }
 ];
 
 let rooms = JSON.parse(localStorage.getItem("hotelRooms")) || defaultRooms;
@@ -16,6 +23,7 @@ const roomSelect = document.getElementById("room-select");
 const tableBody = document.getElementById("rooms-table-body");
 const searchInput = document.getElementById("search-input");
 const statusFilter = document.getElementById("status-filter");
+
 
 function saveData() {
   localStorage.setItem("hotelRooms", JSON.stringify(rooms));
@@ -38,7 +46,7 @@ function updateStats() {
   document.getElementById("total-rooms").textContent = total;
   document.getElementById("available-rooms").textContent = available;
   document.getElementById("occupied-rooms").textContent = occupied;
-  document.getElementById("total-revenue").textContent = `$${revenue}`;
+  document.getElementById("total-revenue").textContent = formatCurrency(revenue);
 }
 
 function populateRoomDropdown() {
@@ -57,7 +65,7 @@ function populateRoomDropdown() {
   availableRooms.forEach(room => {
     const option = document.createElement("option");
     option.value = room.number;
-    option.textContent = `Room ${room.number} - ${room.type} ($${room.price}/night)`;
+   option.textContent = `Room ${room.number} - ${room.type} (${formatCurrency(room.price)}/night)`;
     roomSelect.appendChild(option);
   });
 }
@@ -81,12 +89,12 @@ function renderTable() {
   filteredRooms.forEach(room => {
     const tr = document.createElement("tr");
     const isOccupied = room.status === "Occupied";
-    const totalBill = isOccupied ? `$${room.price * room.guest.nights}` : "-";
-
+    const totalBill = isOccupied ? formatCurrency(room.price * room.guest.nights) : "-";
+    
     tr.innerHTML = `
       <td><strong>${room.number}</strong></td>
       <td>${room.type}</td>
-      <td>$${room.price}</td>
+      <td>${formatCurrency(room.price)}</td>
       <td>
         <span class="badge ${isOccupied ? "occupied" : "available"}">
           ${room.status}
@@ -135,7 +143,7 @@ window.checkOut = function (roomNumber) {
 
   const total = room.price * room.guest.nights;
   const confirmCheckout = confirm(
-    `Check out ${room.guest.name} from Room ${room.number}?\nTotal Bill: $${total}`
+   `Check out ${room.guest.name} from Room ${room.number}?\nTotal Bill: ${formatCurrency(total)}`
   );
 
   if (confirmCheckout) {
